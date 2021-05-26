@@ -9,7 +9,7 @@
 // Game values 
 let min = 1,
     max = 10,
-    winningNum = 2,
+    winningNum = getRandomNum(min, max),
     guessesLeft = 3;
 
 // UI elements
@@ -24,9 +24,16 @@ const game = document.querySelector('#game'),
 minNum.textContent = min;
 maxNum.textContent = max;
 
+//play again event listener
+game.addEventListener('mousedown', function (e) {
+    if (e.target.className === 'play-again') {
+        window.location.reload();
+    }
+});
+
 //Listen for guesses
 guessBtn.addEventListener('click', function () {
-    let guess = parseInt(guessInput.value)
+    let guess = parseInt(guessInput.value);
     //Validate input
     if (isNaN(guess) || guess < min || guess > max) {
         setMessage(`Please enter a number between ${min} and ${max}`, 'red')
@@ -62,7 +69,15 @@ function gameOver(won, msg) {
     guessInput.style.borderWidth = '2px';
     message.style.color = color;
     //Set message 
-    setMessage(msg)
+    setMessage(msg);
+    //Play again
+    guessBtn.value = "Play Again";
+    guessBtn.className += 'play-again';
+
+}
+//get winning Number
+function getRandomNum(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min)
 }
 // set message
 function setMessage(msg, color) {
